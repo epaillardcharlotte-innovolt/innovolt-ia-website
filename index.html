@@ -196,104 +196,251 @@
             }
         }
 
-        /* Assistants Section */
-        .assistants {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* SECTION ÉCOSYSTÈME */
+        .ecosystem-section {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.02);
+            margin: 3rem 0;
         }
 
-        .section-title {
+        .ecosystem-header {
             text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .ecosystem-title {
             font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 3rem;
+            margin-bottom: 20px;
             background: linear-gradient(135deg, #ffffff, #00f5ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-weight: 700;
         }
 
-        .assistants-grid {
+        .ecosystem-subtitle {
+            font-size: 1.2rem;
+            color: #cccccc;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .new-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #00f5ff, #ff00ff);
+            color: #000000;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .assistants-categories {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: 30px;
+            margin-bottom: 60px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 2rem;
         }
 
-        .assistant-card {
+        .category-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 30px;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            cursor: pointer;
         }
 
-        .assistant-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(0, 245, 255, 0.1), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .assistant-card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .assistant-card:hover {
+        .category-card:hover {
             transform: translateY(-10px);
             border-color: rgba(0, 245, 255, 0.5);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .assistant-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #00f5ff, #ff00ff);
-            border-radius: 15px;
+        .category-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            margin-bottom: 25px;
         }
 
-        .assistant-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        .category-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .category-title {
+            font-size: 1.4rem;
             color: #ffffff;
+            font-weight: 600;
+            margin: 0;
         }
 
-        .assistant-card p {
+        .assistant-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #00f5ff;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .assistant-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+            border-color: rgba(0, 245, 255, 0.3);
+        }
+
+        .assistant-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .assistant-specialty {
+            font-size: 0.9rem;
+            color: #00f5ff;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .assistant-description {
+            font-size: 0.9rem;
             color: #cccccc;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            line-height: 1.5;
+            margin-bottom: 15px;
         }
 
         .assistant-link {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
             background: rgba(0, 245, 255, 0.1);
             border: 1px solid #00f5ff;
             color: #00f5ff;
             text-decoration: none;
+            padding: 10px 20px;
             border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
             transition: all 0.3s ease;
-            font-weight: 500;
         }
 
         .assistant-link:hover {
             background: #00f5ff;
             color: #000000;
             transform: scale(1.05);
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px auto;
+            max-width: 1200px;
+        }
+
+        .stats-title {
+            text-align: center;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ffffff, #00f5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #00f5ff;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #cccccc;
+            font-weight: 500;
+        }
+
+        .contact-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 30px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #ffffff, #00f5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .contact-label {
+            font-weight: 600;
+            color: #00f5ff;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .contact-value {
+            font-size: 1.1rem;
+            color: white;
+            word-wrap: break-word;
         }
 
         /* Benefits Section */
@@ -306,6 +453,16 @@
         .benefits-container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #ffffff, #00f5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .benefits-grid {
@@ -491,11 +648,7 @@
             .nav-links {
                 display: none;
             }
-            
-            .assistants-grid {
-                grid-template-columns: 1fr;
-            }
-            
+
             .benefits-grid {
                 grid-template-columns: 1fr;
             }
@@ -511,6 +664,23 @@
 
             .testimonial-text {
                 font-size: 1rem;
+            }
+
+            .assistants-categories {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+            
+            .ecosystem-title {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -563,28 +733,171 @@
         </div>
     </section>
 
-    <section id="assistants" class="assistants">
-        <h2 class="section-title fade-in">Nos Assistants Intelligents</h2>
-        <div class="assistants-grid">
-            <div class="assistant-card fade-in" onclick="window.open('https://chatgpt.com/g/g-Qa1yrCrD5-innovolt-ia-electricien?model=gpt-5', '_blank')">
-                <div class="assistant-icon">⚡</div>
-                <h3>Innovolt-IA Électricien</h3>
-                <p>Votre expert en réglementation électrique, normes de sécurité et bonnes pratiques. Accompagne les électriciens dans leurs projets avec une expertise technique pointue.</p>
-                <a href="https://chatgpt.com/g/g-Qa1yrCrD5-innovolt-ia-electricien?model=gpt-5" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+    <!-- SECTION ÉCOSYSTÈME -->
+    <section id="assistants" class="ecosystem-section">
+        <div class="ecosystem-header">
+            <div class="new-badge">🚀 NOUVEAU : ÉCOSYSTÈME COMPLET</div>
+            <h2 class="ecosystem-title">🤖 10 ASSISTANTS IA SPÉCIALISÉS</h2>
+            <p class="ecosystem-subtitle">Premier écosystème IA sectoriel complet pour entreprises électriques et BTP</p>
+        </div>
+        
+        <div class="assistants-categories">
+            <!-- Communication & Commercial -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">💼</span>
+                    <h3 class="category-title">Communication & Commercial</h3>
+                </div>
+                
+                <div class="assistant-card">
+                    <div class="assistant-name">Innovolt-IA Com'</div>
+                    <div class="assistant-specialty">Communication B2B & LinkedIn</div>
+                    <div class="assistant-description">Contenus LinkedIn optimisés, copywriting technique, storytelling commercial</div>
+                    <a href="https://chatgpt.com/g/g-68c7df45e4248191b260766dca096b27-innovolt-ia-com" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+                </div>
+                
+                <div class="assistant-card">
+                    <div class="assistant-name">Innovolt-IA Chiffrage</div>
+                    <div class="assistant-specialty">Devis & marges sécurisés</div>
+                    <div class="assistant-description">Estimation automatisée, simulation marges, protection rentabilité</div>
+                    <a href="https://chatgpt.com/g/g-68c805d343108191ba422f778c1e39f6-innovolt-ia-chiffrage" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+                </div>
             </div>
-
-            <div class="assistant-card fade-in" onclick="window.open('https://chatgpt.com/g/g-68ad88907c408191839bca33786c7fdc-innovolt-ia-rh-btp?model=gpt-5', '_blank')">
-                <div class="assistant-icon">👥</div>
-                <h3>Innovolt-IA RH BTP</h3>
-                <p>Spécialisé dans la gestion des ressources humaines du secteur BTP. Optimise vos processus RH, respecte la réglementation et améliore la gestion de vos équipes.</p>
-                <a href="https://chatgpt.com/g/g-68ad88907c408191839bca33786c7fdc-innovolt-ia-rh-btp?model=gpt-5" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+            
+            <!-- Direction & Pilotage -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">🎯</span>
+                    <h3 class="category-title">Direction & Pilotage</h3>
+                </div>
+                
+                <div class="assistant-card">
+                    <div class="assistant-name">Innovolt-IA Direction</div>
+                    <div class="assistant-specialty">Pilotage dirigeants TPE/PME</div>
+                    <div class="assistant-description">Analyses financières, aide décision stratégique, vision globale</div>
+                    <a href="https://chatgpt.com/g/g-68c7e3d750e48191acf39a15c95307bc-innovolt-ia-direction" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+                </div>
             </div>
-
-            <div class="assistant-card fade-in" onclick="window.open('https://chatgpt.com/g/g-68aeb8d995bc8191acf267904d65926a-innovolt-ia-sentinelle?model=gpt-5', '_blank')">
-                <div class="assistant-icon">🛡️</div>
-                <h3>Innovolt-IA Sentinelle</h3>
-                <p>Votre garde du corps numérique pour la sécurité et la prévention des risques. Analyse, anticipe et vous accompagne dans la mise en place de protocoles de sécurité.</p>
-                <a href="https://chatgpt.com/g/g-68aeb8d995bc8191acf267904d65926a-innovolt-ia-sentinelle?model=gpt-5" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+            
+            <!-- Technique & Terrain -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">⚡</span>
+                    <h3 class="category-title">Technique & Terrain</h3>
+                </div>
+                
+                <div class="assistant-card">
+                    <div class="assistant-name">Innovolt-IA Électricien</div>
+                    <div class="assistant-specialty">Support technique terrain</div>
+                    <div class="assistant-description">Dépannage, normes NF C 15-100, schémas, diagnostic technique</div>
+                    <a href="https://chatgpt.com/g/g-Qa1yrCrD5-innovolt-ia-electricien?model=gpt-5" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+                </div>
+            </div>
+            
+            <!-- RH & Sécurité -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">👥</span>
+                    <h3 class="category-title">RH & Sécurité</h3>
+                </div>
+                
+                <div class="assistant-card">
+                    <div class="assistant-name">Innovolt-IA RH BTP</div>
+                    <div class="assistant-specialty">Gestion RH complète</div>
+                    <div class="assistant-description">Habilitations électriques, formations, conformité sociale</div>
+                    <a href="https://chatgpt.com/g/g-68ad88907c408191839bca33786c7fdc-innovolt-ia-rh-btp?model=gpt-5" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+                </div>
+                
+                <div class="assistant-card">
+                    <div class="assistant-name">Innovolt-IA Sentinelle</div>
+                    <div class="assistant-specialty">Sécurité & conformité</div>
+                    <div class="assistant-description">Plans prévention PPSPS, analyse risques, conformité OPPBTP</div>
+                    <a href="https://chatgpt.com/g/g-68aeb8d995bc8191acf267904d65926a-innovolt-ia-sentinelle?model=gpt-5" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+                </div>
+            </div>
+            
+            <!-- Planification & Coordination -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">📋</span>
+                    <h3 class="category-title">Planification & Coordination</h3>
+                </div>
+                
+                <div class="assistant-card">
+                    <div class="assistant-name">Innovolt-IA Chantier</div>
+                    <div class="assistant-specialty">Planification & coordination</div>
+                    <div class="assistant-description">Planning Gantt, coordination équipes, suivi avancement</div>
+                    <a href="https://chatgpt.com/g/g-68c80f40181c8191a39eb39fbb9da9fe-innovolt-ia-chantier" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+                </div>
+            </div>
+            
+            <!-- Spécialisations Métier -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">🔧</span>
+                    <h3 class="category-title">Spécialisations Métier</h3>
+                </div>
+                
+                
+                <div class="assistant-card">
+                    <div class="assistant-name">Innovolt-IA Appro</div>
+                    <div class="assistant-specialty">Optimisation achats & fournisseurs</div>
+                    <div class="assistant-description">Négociation fournisseurs, optimisation stocks, gestion qualité</div>
+                    <a href="https://chatgpt.com/g/g-68c8143edc288191958fd8ddb566d963-innovolt-ia-appro" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+                </div>
+                
+                <div class="assistant-card">
+                    <div class="assistant-name">Innovolt-IA Maintenance</div>
+                    <div class="assistant-specialty">Fidélisation & SAV expert</div>
+                    <div class="assistant-description">Contrats maintenance, planning interventions, fidélisation client</div>
+                    <a href="https://chatgpt.com/g/g-68c8155927fc81918aae28b43b46f6b1-innovolt-ia-maintenance-expert" class="assistant-link" target="_blank">Accéder à l'assistant</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Performances -->
+        <div class="stats-section">
+            <h3 class="stats-title">📊 PERFORMANCES VALIDÉES</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">18,2/20</span>
+                    <div class="stat-label">Score global testé</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">360°</span>
+                    <div class="stat-label">Couverture métier complète</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <div class="stat-label">Protection entreprise sécurisée</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">✓</span>
+                    <div class="stat-label">Workflow fluide validé</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact -->
+        <div class="contact-section">
+            <h3 class="contact-title">📞 COORDONNÉES CONTACT</h3>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">assistant.innovolt@gmail.com</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Téléphone</div>
+                    <div class="contact-value">07 45 25 49 90</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Disponibilité</div>
+                    <div class="contact-value">7j/7 pour démonstration</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Délai de réponse</div>
+                    <div class="contact-value">Sous 24h garanti</div>
+                </div>
             </div>
         </div>
     </section>
@@ -712,5 +1025,5 @@
         });
     </script>
 </body>
-
 </html>
+                
