@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Innovolt-IA | Assistants Intelligents pour le BTP et l'Énergie</title>
+    <title>Innovolt-IA | GPT Builder Électricien</title>
     <style>
+        :root {
+            color-scheme: dark;
+            --primary: #00f5ff;
+            --secondary: #7d4bff;
+            --accent: #ffdd57;
+            --bg: #05060b;
+            --card: rgba(15, 17, 27, 0.92);
+            --text: #f8f9ff;
+            --muted: #a7adc6;
+            --success: #28c76f;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,838 +24,504 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            background: #0a0a0a;
-            color: #ffffff;
-        }
-
-        /* Animated background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-        }
-
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 80%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-20px) rotate(2deg); }
-            66% { transform: translateY(10px) rotate(-1deg); }
-        }
-
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1rem 2rem;
-            background: rgba(10, 10, 10, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #00f5ff, #ff00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: #00f5ff;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(135deg, #00f5ff, #ff00ff);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
+            font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 0 2rem;
+            padding: 24px 12px 80px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.25;
+            z-index: -2;
+        }
+
+        body::before {
+            background: radial-gradient(circle, var(--primary), transparent 70%);
+            top: -160px;
+            left: -120px;
+        }
+
+        body::after {
+            background: radial-gradient(circle, var(--secondary), transparent 70%);
+            bottom: -180px;
+            right: -120px;
+        }
+
+        .app-shell {
+            width: 100%;
+            max-width: 420px;
+            background: linear-gradient(160deg, rgba(15, 17, 27, 0.95), rgba(7, 8, 14, 0.96));
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
             position: relative;
         }
 
-        .hero-content {
-            max-width: 800px;
-            animation: fadeInUp 1s ease-out;
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 22px 10px;
+            font-size: 0.85rem;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+        }
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px 18px;
+        }
+
+        .app-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .app-title span:first-child {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+        }
+
+        .app-title span:last-child {
+            font-size: 1.45rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge-pro {
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 245, 255, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            padding: 0 22px 26px;
+        }
+
+        section {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 20px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .hero {
+            padding: 26px 22px;
+            background: linear-gradient(160deg, rgba(0, 245, 255, 0.12), rgba(125, 75, 255, 0.08));
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(255, 221, 87, 0.3), transparent 70%);
+            top: -80px;
+            right: -40px;
+            filter: blur(20px);
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff, #00f5ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
+            font-size: 1.8rem;
+            line-height: 1.25;
+            margin-bottom: 12px;
         }
 
-        .hero-subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
-            margin-bottom: 2rem;
-            color: #cccccc;
-            line-height: 1.4;
+        .hero p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .quick-actions {
+            display: grid;
+            gap: 12px;
+        }
+
+        .quick-actions li {
+            list-style: none;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: rgba(7, 8, 14, 0.75);
+            padding: 14px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .quick-actions strong {
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .quick-actions span {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .modules {
+            display: grid;
+            gap: 16px;
+        }
+
+        .module-card {
+            background: rgba(7, 8, 14, 0.75);
+            border-radius: 18px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: grid;
+            gap: 8px;
+        }
+
+        .module-card h3 {
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module-card p {
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .chip-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            background: rgba(0, 245, 255, 0.12);
+            color: var(--primary);
+            border: 1px solid rgba(0, 245, 255, 0.32);
+        }
+
+        .workflow {
+            display: grid;
+            gap: 12px;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(7, 8, 14, 0.8);
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 12px;
+            background: rgba(0, 245, 255, 0.18);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .conversation {
+            display: grid;
+            gap: 12px;
+        }
+
+        .bubble {
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            max-width: 90%;
+            position: relative;
+        }
+
+        .bubble.user {
+            margin-left: auto;
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.18), rgba(125, 75, 255, 0.18));
+            border: 1px solid rgba(0, 245, 255, 0.35);
+        }
+
+        .bubble.ai {
+            background: rgba(7, 8, 14, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .cta-card {
+            text-align: center;
+            background: linear-gradient(160deg, rgba(0, 245, 255, 0.15), rgba(125, 75, 255, 0.12));
+            border: 1px solid rgba(0, 245, 255, 0.4);
+        }
+
+        .cta-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .cta-card p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 18px;
         }
 
         .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #00f5ff, #ff00ff);
-            color: #000000;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 22px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #05060b;
+            font-weight: 600;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0, 245, 255, 0.35);
         }
 
-        .cta-button::before {
-            content: '';
+        .bottom-nav {
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* SECTION ÉCOSYSTÈME */
-        .ecosystem-section {
-            padding: 80px 0;
-            background: rgba(255, 255, 255, 0.02);
-            margin: 3rem 0;
-        }
-
-        .ecosystem-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .ecosystem-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff, #00f5ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-        }
-
-        .ecosystem-subtitle {
-            font-size: 1.2rem;
-            color: #cccccc;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.4;
-        }
-
-        .new-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #00f5ff, #ff00ff);
-            color: #000000;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .assistants-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 0 2rem;
-        }
-
-        .category-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .category-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(0, 245, 255, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .category-header {
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            align-items: center;
-            margin-bottom: 25px;
+            gap: 18px;
+            background: rgba(7, 8, 14, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 12px 18px;
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.45);
         }
 
-        .category-icon {
-            font-size: 2rem;
-            margin-right: 15px;
-        }
-
-        .category-title {
-            font-size: 1.4rem;
-            color: #ffffff;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .assistant-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid #00f5ff;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .assistant-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-            border-color: rgba(0, 245, 255, 0.3);
-        }
-
-        .assistant-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 5px;
-        }
-
-        .assistant-specialty {
-            font-size: 0.9rem;
-            color: #00f5ff;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .assistant-description {
-            font-size: 0.9rem;
-            color: #cccccc;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .assistant-link {
-            display: inline-block;
-            background: rgba(0, 245, 255, 0.1);
-            border: 1px solid #00f5ff;
-            color: #00f5ff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .assistant-link:hover {
-            background: #00f5ff;
-            color: #000000;
-            transform: scale(1.05);
-        }
-
-        .stats-section {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 60px auto;
-            max-width: 1200px;
-        }
-
-        .stats-title {
-            text-align: center;
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            color: #ffffff;
-            margin-bottom: 30px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #ffffff, #00f5ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .stat-number {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #00f5ff;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            color: #cccccc;
-            font-weight: 500;
-        }
-
-        .contact-section {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .contact-title {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            margin-bottom: 30px;
-            color: #ffffff;
-            background: linear-gradient(135deg, #ffffff, #00f5ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .contact-item {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .contact-label {
-            font-weight: 600;
-            color: #00f5ff;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
-        .contact-value {
-            font-size: 1.1rem;
-            color: white;
-            word-wrap: break-word;
-        }
-
-        /* Benefits Section */
-        .benefits {
-            padding: 5rem 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            margin: 3rem 0;
-        }
-
-        .benefits-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 3rem;
-            background: linear-gradient(135deg, #ffffff, #00f5ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .benefit-item {
-            text-align: center;
-            padding: 1.5rem;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .benefit-icon {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 1rem;
-            background: linear-gradient(135deg, #00f5ff, #ff00ff);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .benefit-item h4 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .benefit-item p {
-            color: #cccccc;
-            line-height: 1.6;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .testimonials-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 245, 255, 0.2);
-            border-radius: 25px;
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .testimonial-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 245, 255, 0.05), rgba(255, 0, 255, 0.05));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .testimonial-card:hover::before {
-            opacity: 1;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 245, 255, 0.4);
-            box-shadow: 0 15px 35px rgba(0, 245, 255, 0.1);
-        }
-
-        .testimonial-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #00f5ff, #ff00ff);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .testimonial-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .testimonial-text {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: #e0e0e0;
-            margin-bottom: 2rem;
-            font-style: italic;
-            position: relative;
-        }
-
-        .testimonial-text::before {
-            content: '"';
-            font-size: 4rem;
-            color: rgba(0, 245, 255, 0.3);
-            position: absolute;
-            top: -20px;
-            left: -10px;
-            font-family: serif;
-            line-height: 1;
-        }
-
-        .testimonial-author {
+        .bottom-nav button,
+        .bottom-nav a {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 0.78rem;
             display: flex;
             flex-direction: column;
-            gap: 0.3rem;
-        }
-
-        .testimonial-author strong {
-            color: #ffffff;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .testimonial-author span {
-            color: #00f5ff;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        /* Footer */
-        .footer {
-            padding: 3rem 2rem 1rem;
-            background: rgba(0, 0, 0, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .footer h3 {
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .footer p {
-            color: #cccccc;
-            margin-bottom: 0.5rem;
-        }
-
-        .email-link {
-            color: #00f5ff;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
             text-decoration: none;
-            transition: color 0.3s ease;
         }
 
-        .email-link:hover {
-            color: #ff00ff;
+        .bottom-nav .active {
+            color: var(--primary);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .testimonial-card {
-                padding: 2rem;
-            }
-
-            .testimonial-text {
-                font-size: 1rem;
-            }
-
-            .assistants-categories {
-                grid-template-columns: 1fr;
-                padding: 0 1rem;
-            }
-            
-            .ecosystem-title {
-                font-size: 2rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
+        .icon-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 245, 255, 0.12);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
         }
 
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
+        @media (min-width: 768px) {
+            body {
+                padding: 48px 0;
+            }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+            .app-shell {
+                max-width: 440px;
+            }
         }
     </style>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2V1SNS874S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-2V1SNS874S');
-</script>
 </head>
 <body>
-    <div class="bg-animation"></div>
-    
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">Innovolt-IA</div>
-            <ul class="nav-links">
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#assistants">Assistants</a></li>
-                <li><a href="#benefits">Avantages</a></li>
-                <li><a href="#testimonials">Témoignages</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+    <div class="app-shell">
+        <div class="status-bar">
+            <span>09:41</span>
+            <span>🔋 98%</span>
+        </div>
+        <header class="app-header">
+            <div class="app-title">
+                <span>Innovolt-IA</span>
+                <span>GPT Builder Électricien</span>
+            </div>
+            <div class="badge-pro">⚡ Spécialiste métier</div>
+        </header>
+        <main>
+            <section class="hero">
+                <h1>L'IA compagnon de vos chantiers électriques</h1>
+                <p>Diagnostics, normes, dimensionnement et documents terrain : l'expert IA disponible 24/7 pour vos équipes d'électriciens.</p>
+            </section>
+
+            <section>
+                <h2 style="margin-bottom: 12px; font-size: 1.1rem;">Actions express</h2>
+                <ul class="quick-actions">
+                    <li>
+                        <div class="icon-circle">🧮</div>
+                        <div>
+                            <strong>Dimensionner un tableau</strong>
+                            <span>Calcule sections, calibres disjoncteurs et protections différentielles selon NF C 15-100.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon-circle">📋</div>
+                        <div>
+                            <strong>Rédiger un PV de contrôle</strong>
+                            <span>Génère check-lists, rapports d'essais et traçabilité pour vos interventions.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon-circle">🛠️</div>
+                        <div>
+                            <strong>Dépanner sur site</strong>
+                            <span>Analyse symptôme, propose tests rapides et solutions conformes sécurité.</span>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 style="margin-bottom: 14px; font-size: 1.1rem;">Modules intelligents</h2>
+                <div class="modules">
+                    <div class="module-card">
+                        <h3>🔌 Bureau d'étude instantané</h3>
+                        <p>Charge des circuits, équilibrage triphasé, calcul des chutes de tension et schémas unifilaires.</p>
+                        <div class="chip-list">
+                            <span class="chip">NF C 15-100</span>
+                            <span class="chip">IRVE</span>
+                            <span class="chip">Photovoltaïque</span>
+                        </div>
+                    </div>
+                    <div class="module-card">
+                        <h3>📦 Préparation de chantier</h3>
+                        <p>Liste matériel, planning tâches, fiches sécurité et briefing équipes prêt à envoyer.</p>
+                        <div class="chip-list">
+                            <span class="chip">Consuel</span>
+                            <span class="chip">PPSPS</span>
+                            <span class="chip">QSE</span>
+                        </div>
+                    </div>
+                    <div class="module-card">
+                        <h3>🔍 Maintenance & SAV</h3>
+                        <p>Protocoles de test, interprétation mesures et recommandations correctives immédiates.</p>
+                        <div class="chip-list">
+                            <span class="chip">Thermographie</span>
+                            <span class="chip">Analyse défaut</span>
+                            <span class="chip">Rapports PDF</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 style="margin-bottom: 14px; font-size: 1.1rem;">Workflow terrain</h2>
+                <div class="workflow">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Brief chantier</strong>
+                            <p style="color: var(--muted); font-size: 0.85rem;">Déposez vos plans, photos ou notes vocales : l'IA synthétise le contexte.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Assistant interactif</strong>
+                            <p style="color: var(--muted); font-size: 0.85rem;">Dialogue naturel, commandes vocales et bibliothèques normatives intégrées.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Livrables prêts</strong>
+                            <p style="color: var(--muted); font-size: 0.85rem;">Documents éditables, exports PDF/Excel et partage instantané avec vos équipes.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 style="margin-bottom: 14px; font-size: 1.1rem;">Extrait de conversation</h2>
+                <div class="conversation">
+                    <div class="bubble user">
+                        "Je dois dimensionner une IRVE 22 kW dans un parking collectif, tu peux me donner les protections et la section ?"
+                    </div>
+                    <div class="bubble ai">
+                        ✔️ Analyse de la puissance et du régime de neutre.<br>
+                        ✔️ Proposition de disjoncteur différentiel type A 40 A - 30 mA courbe C.<br>
+                        ✔️ Section recommandée : 3G6 mm² cuivre sur 25 m avec chute de tension &lt; 3%.<br>
+                        ✔️ Rappel des obligations Consuel et affichage sécurité.
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-card">
+                <h2>Déployez le GPT Builder Électricien</h2>
+                <p>Ajoutez l'assistant Innovolt-IA à votre flotte et équipez vos techniciens d'un copilote IA fiable, normé et documenté.</p>
+                <a class="cta-button" href="https://chatgpt.com/g/g-68ca7f5ea5bc81919e590d7a88639cae-innovolt-ia-electricite?model=gpt-5" target="_blank" rel="noopener">
+                    🚀 Lancer le Builder
+                </a>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <button class="active">
+                <div class="icon-circle">🏠</div>
+                Accueil
+            </button>
+            <button>
+                <div class="icon-circle">📚</div>
+                Guides
+            </button>
+            <a href="mailto:contact@innovolt-ia.com">
+                <div class="icon-circle">💬</div>
+                Support
+            </a>
         </nav>
-    </header>
-
-    <section id="accueil" class="hero">
-        <div class="hero-content">
-            <h1>L'Intelligence Artificielle au Service du BTP et de l'Énergie</h1>
-            <p class="hero-subtitle">
-                Simplifiez la conformité, prévenez les risques et accompagnez vos équipes avec nos assistants intelligents spécialisés. 
-                Une expertise IA sur mesure pour les professionnels exigeants.
-            </p>
-            <a href="#assistants" class="cta-button">Découvrir nos assistants</a>
-        </div>
-    </section>
-
-    <!-- SECTION ÉCOSYSTÈME -->
-    <section id="assistants" class="ecosystem-section">
-        <div class="ecosystem-header">
-            <div class="new-badge">🚀 NOUVEAU : ÉCOSYSTÈME COMPLET</div>
-            <h2 class="ecosystem-title">🤖 10 ASSISTANTS IA SPÉCIALISÉS</h2>
-            <p class="ecosystem-subtitle">Premier écosystème IA sectoriel complet pour entreprises électriques et BTP</p>
-        </div>
-        
-        <div class="assistants-categories">
-            <!-- Communication & Commercial -->
-            <div class="category-card">
-                <div class="category-header">
-                    <span class="category-icon">💼</span>
-                    <h3 class="category-title">Communication & Commercial</h3>
-                </div>
-                
-                <div class="assistant-card">
-                    <div class="assistant-name">Innovolt-IA Com'</div>
-                    <div class="assistant-specialty">Communication B2B & LinkedIn</div>
-                    <div class="assistant-description">Contenus LinkedIn optimisés, copywriting technique, storytelling commercial</div>
-                    <a href="https://chatgpt.com/g/g-68c7df45e4248191b260766dca096b27-innovolt-ia-com" class="assistant-link" target="_blank">Accéder à l'assistant</a>
-                </div>
-                
-                <div class="assistant-card">
-                    <div class="assistant-name">Innovolt-IA Chiffrage</div>
-                    <div class="assistant-specialty">Devis & marges sécurisés</div>
-                    <div class="assistant-description">Estimation automatisée, simulation marges, protection rentabilité</div>
-                    <a href="https://chatgpt.com/g/g-68c805d343108191ba422f778c1e39f6-innovolt-ia-chiffrage" class="assistant-link" target="_blank">Accéder à l'assistant</a>
-                </div>
-            </div>
-            
-            <!-- Direction & Pilotage -->
-            <div class="category-card">
-                <div class="category-header">
-                    <span class="category-icon">🎯</span>
-                    <h3 class="category-title">Direction & Pilotage</h3>
-                </div>
-                
-                <div class="assistant-card">
-                    <div class="assistant-name">Innovolt-IA Direction</div>
-                    <div class="assistant-specialty">Pilotage dirigeants TPE/PME</div>
-                    <div class="assistant-description">Analyses financières, aide décision stratégique, vision globale</div>
-                    <a href="https://chatgpt.com/g/g-68c7e3d750e48191acf39a15c95307bc-innovolt-ia-direction" class="assistant-link" target="_blank">Accéder à l'assistant</a>
-                </div>
-            </div>
-            
-            <!-- Technique & Terrain -->
-            <div class="category-card">
-                <div class="category-header">
-                    <span class="category-icon">⚡</span>
-                    <h3 class="category-title">Technique & Terrain</h3>
-                </div>
-                
-                <div class="assistant-card">
-                    <div class="assistant-name">Innovolt-IA Électricien</div>
-                    <div class="assistant-specialty">Support technique terrain</div>
-                    <div class="assistant-description">Dépannage, normes NF C 15-100, schémas, diagnostic technique</div>
-                    <a href="https://chatgpt.com/g/g-68ca7f5ea5bc81919e590d7a88639cae-innovolt-ia-electricite?model=gpt-5" class="assistant-link" target="_blank">Accéder à l'assistant</a>
-                </div>
-            </div>
-            
-            <!-- RH & Sécurité -->
-            <div class="category-card">
-                <div class="category-header">
-                    <span class="category-icon">👥</span>
-                    <h3 class="category-title">RH & Sécurité</h3>
-                </div>
-                
-                <div class="assistant-card">
-                    <div class="assistant-name">Innovolt-IA RH BTP</div>
-                    <div class="assistant-specialty">Gestion RH complète</div>
-                    <div class="assistant-description">Habilitations électriques, formations, conformité sociale</div>
-                    <a href="https://chatgpt.com/g/g-68ad88907c408191839bca33786c7fdc-innovolt-ia-rh-btp?model=gpt-5" class="assistant-link" target="_blank">Accéder à l'assistant</a>
-                </div>
-                
-                <div class="assistant-card">
-                    <div class="assistant-name">Innovolt-IA Sentinelle</div>
-                    <div class="assistant-specialty">Sécurité & conformité</div>
-                    <div class="assistant-description">Plans prévention PPSPS, analyse risques, conformité OPPBTP</div>
-                    <a href="https://chatgpt.com/g/g-68aeb8d995bc8191acf267904d65926a-innovolt-ia-sentinelle?model=gpt-5" class="assistant-link" target="_blank">Accéder à l'assistant</a>
-                </div>
-            </div>
-            
-            <!-- Planification & Coordination -->
-            <div class="category-card">
-                <div class="category-header">
-                    <span class="category-icon">📋</span>
-                    <h3 class="category-title">Planification & Coordination</h3>
-                </div>
-                
-                <div class="assistant-card">
-                    <div class="assistant-name">Innovolt-IA Chantier</div>
-                    <div class="assistant-specialty">Planification & coordination</div>
-                    <div class="assistant-description">Planning Gantt, coordination équipes, suivi avancement</div>
-                    <a href="https://chatgpt.com/g/g-68c80f40181c8191a39eb39fbb9da9fe-innovolt-ia-chantier" class="assistant-link" target="_blank">Accéder à l'assistant</a>
-                </div>
-            </div>
-            
-            <!-- Spécialisations Métier -->
-            <div class="category-card">
-                <div class="category-header">
-                    <span class="category-icon">🔧</span>
-                    <h3 class="category-title">Spécialisations Métier</h3>
-                </div>
-                
-                <div class="assistant-card">
-                    <div class="assistant-name">Innovolt-IA Green</div>
-                    <div class="assistant-specialty">Transition énergétique</div>
-                    <div class="assistant-description">Audit énergétique, aides/subventions, solutions vertes</div>
-                    <a href="https://chatgpt.com/g/g-68c810ebdc608191bbae00ce9b3fcda2-innovolt-ia-green" class="assistant-link" target="_blank">Accéder à l'assistant</a>
-                </div>
-                
-                <div class="assistant-card">
-                    <div class="assistant-name">Innovolt-IA Appro
+    </div>
+</body>
+</html>
